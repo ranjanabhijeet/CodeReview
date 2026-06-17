@@ -20,11 +20,14 @@ function App() {
   }, []);
 
   async function reviewCode() {
-    const response = await axios.post("http://localhost:3000/ai/get-review", {
+  const response = await axios.post(
+    "https://codereview-s9wv.onrender.com/ai/get-review",
+    {
       code,
-    });
-    setReview(response.data);
-  }
+    }
+  );
+  setReview(response.data);
+}
 
   const copyCode = () => {
     navigator.clipboard.writeText(code).then(() => {
