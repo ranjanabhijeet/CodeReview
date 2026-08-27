@@ -9,6 +9,12 @@ import axios from "axios";
 import { FaMagic, FaCopy } from "react-icons/fa"; // Import icons
 import "./App.css";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV
+    ? "http://localhost:3000"
+    : "https://codereview-s9wv.onrender.com");
+
 function App() {
   const [code, setCode] = useState(`function sum() {
   return 1 + 1
@@ -20,14 +26,19 @@ function App() {
   }, []);
 
   async function reviewCode() {
-  const response = await axios.post(
-    "https://codereview-s9wv.onrender.com/ai/get-review",
-    {
-      code,
+    try {
+      setReview("Reviewing code...");
+      const response = await axios.post(`${API_BASE_URL}/ai/get-review`, {
+        code,
+      });
+      setReview(response.data);
+    } catch (error) {
+      setReview(
+        error.response?.data ||
+          "Something went wrong while reviewing the code. Please try again."
+      );
     }
-  );
-  setReview(response.data);
-}
+  }
 
   const copyCode = () => {
     navigator.clipboard.writeText(code).then(() => {

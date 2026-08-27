@@ -21,6 +21,12 @@ module.exports.getReview = async (req, res) => {
       );
     }
 
+    if (error.status === 404) {
+      return res.status(502).send(
+        "Gemini model is unavailable. Update GEMINI_MODEL or the backend default model."
+      );
+    }
+
     res.status(500).send("Internal Server Error");
   }
 };
