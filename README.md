@@ -2,6 +2,24 @@
 
 Code Reviewer is a full-stack AI code review app. Paste JavaScript code into the editor, submit it for review, and get structured feedback about bugs, readability, performance, security, and maintainability.
 
+## Live Demo
+
+[Open Code Reviewer](https://code-review-gamma-rouge.vercel.app/)
+
+## Screenshots
+
+Empty review panel:
+
+![Code Reviewer empty state](docs/screenshots/code-reviewer-empty.png)
+
+Review loading state:
+
+![Code Reviewer loading state](docs/screenshots/code-reviewer-loading.png)
+
+Generated review result:
+
+![Code Reviewer result state](docs/screenshots/code-reviewer-result.png)
+
 ## Features
 
 - Interactive code editor with syntax highlighting
