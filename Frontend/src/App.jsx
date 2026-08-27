@@ -6,7 +6,7 @@ import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import axios from "axios";
-import { FaMagic, FaCopy } from "react-icons/fa"; // Import icons
+import { FaMagic, FaCopy, FaSpinner } from "react-icons/fa";
 import "./App.css";
 
 const API_BASE_URL =
@@ -20,14 +20,18 @@ function App() {
   return 1 + 1
 }`);
   const [review, setReview] = useState(``);
+  const [isReviewing, setIsReviewing] = useState(false);
 
   useEffect(() => {
     prism.highlightAll();
   }, []);
 
   async function reviewCode() {
+    if (isReviewing) return;
+
     try {
-      setReview("Reviewing code...");
+      setIsReviewing(true);
+      setReview("Reviewing your code. This can take a few seconds...");
       const response = await axios.post(`${API_BASE_URL}/ai/get-review`, {
         code,
       });
@@ -37,6 +41,8 @@ function App() {
         error.response?.data ||
           "Something went wrong while reviewing the code. Please try again."
       );
+    } finally {
+      setIsReviewing(false);
     }
   }
 
@@ -75,16 +81,26 @@ function App() {
             />
           </div>
           <div className="actions">
-            <div onClick={copyCode} className="copy">
+            <button type="button" onClick={copyCode} className="copy">
               <FaCopy /> Copy Code
-            </div>
-            <div onClick={reviewCode} className="review">
-              <FaMagic /> Review Code
-            </div>
+            </button>
+            <button
+              type="button"
+              onClick={reviewCode}
+              className="review"
+              disabled={isReviewing}
+            >
+              {isReviewing ? <FaSpinner className="spinner" /> : <FaMagic />}
+              {isReviewing ? "Reviewing..." : "Review Code"}
+            </button>
           </div>
         </div>
         <div className="right">
-          <Markdown rehypePlugins={[rehypeHighlight]}>{review}</Markdown>
+          {review ? (
+            <Markdown rehypePlugins={[rehypeHighlight]}>{review}</Markdown>
+          ) : (
+            <p className="empty-state">Your AI review will appear here.</p>
+          )}
         </div>
       </main>
       <footer>

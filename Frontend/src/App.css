@@ -59,6 +59,10 @@ main .right {
   border: 1px solid #343434;
 }
 
+main .left {
+  position: relative;
+}
+
 main .left:hover,
 main .right:hover {
   transform: translateY(-5px);
@@ -96,10 +100,13 @@ main .left:hover .actions {
 /* Copy and Review Buttons */
 .actions .copy,
 .actions .review {
+  border: 0;
   background-color: #646cff;
   color: #ffffff;
   padding: 0.75rem 1.5rem;
+  min-width: 135px;
   font-weight: 500;
+  font: inherit;
   cursor: pointer;
   user-select: none;
   border-radius: 0.7rem;
@@ -107,12 +114,29 @@ main .left:hover .actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  justify-content: center;
 }
 
 .actions .copy:hover,
 .actions .review:hover {
   background-color: #0d18e6;
   box-shadow: 0 0 15px rgba(100, 108, 255, 0.7);
+}
+
+.actions .review:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+  box-shadow: none;
+}
+
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Output Section Styling */
@@ -123,6 +147,10 @@ main .right {
   overflow: auto;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
+}
+
+.empty-state {
+  color: #c7c7c7;
 }
 
 .right pre {
@@ -209,4 +237,3 @@ footer {
 footer p {
   margin: 0;
 }
-
